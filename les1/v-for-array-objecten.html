@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <ul>
+        <li v-for="singleItem in items">{{ singleItem.boodschap }}</li>
+      </ul>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return {
+            items: [
+              { boodschap: "jQuery" },
+              { boodschap: "Vue.js" },
+              { boodschap: "React.js" },
+            ],
+          };
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>

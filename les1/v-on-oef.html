@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p>Voornaam: {{voornaam}}</p>
+      <p>Achternaam: {{achternaam}}</p>
+      <p>{{mijnDetails()}}</p>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return { voornaam: "Ronny", achternaam: "Renders", land: "België" };
+        },
+        methods: {
+          mijnDetails: function () {
+            return (
+              "Ik ben " +
+              this.voornaam +
+              " " +
+              this.achternaam +
+              " " +
+              "uit " +
+              this.land
+            );
+          },
+        },
+      };
+
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>

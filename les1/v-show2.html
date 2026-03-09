@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      Hoe noemt de taal? (vue/vue.js)<input v-model="naam" />
+      <div v-show="naam === 'vue' ">Toon deze tekst als de naam vue is</div>
+      <div v-show="naam === 'vue.js'">
+        Toon deze tekst als de naam vue.js is
+      </div>
+      <div v-show="naam !=='vue' && naam !=='vue.js'">
+        Toon deze tekst als de naam niet vue of vue.js is
+      </div>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return { naam: "vue" };
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>

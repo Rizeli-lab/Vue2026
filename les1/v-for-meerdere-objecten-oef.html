@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <ul>
+        <li v-for="hond in honden">
+          <span v-for="property in hond">{{property}} {{' - '}}</span>
+        </li>
+      </ul>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return {
+            honden: [
+              { naam: "Rolf", geboortedatum: "02/03/2017", eigenaar: "Jan" },
+              { naam: "Bruto", geboortedatum: "02/03/2017", eigenaar: "Piet" },
+              {
+                naam: "Kaizer",
+                geboortedatum: "02/04/2018",
+                eigenaar: "Cornelis",
+              },
+              { naam: "Kazan", geboortedatum: "12/08/2019", eigenaar: "Joris" },
+            ],
+          };
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>

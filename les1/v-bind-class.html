@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+      .red {
+        border: red 2px solid;
+      }
+      .green {
+        border: green 2px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <input v-model="email" />
+      <button
+        onclick="alert('clicked')"
+        :disabled="email.length<7"
+        :class="{red: email.length<7, green: email.length>=7}"
+      >
+        Klik mij
+      </button>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return { email: "" };
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>
