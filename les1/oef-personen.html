@@ -8,14 +8,14 @@
   </head>
   <body>
     <div id="app">
-      <p>Voornaam: {{voornaam}}</p>
-      <p>Achternaam: {{achternaam}}</p>
-      <p>{{mijnDetails()}}</p>
+      <input v-model="person" size="50" />
+      <button @click="addPerson()">Voeg toe</button>
+      <div><p v-for="persoon in personen">{{persoon}}</p></div>
     </div>
     <script>
       const app = {
         data: function () {
-          return { voornaam: "Ronny", achternaam: "Renders", land: "België" };
+          return {};
         },
       };
 
