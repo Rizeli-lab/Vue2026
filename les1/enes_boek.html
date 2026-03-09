@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h3>Geef de titel in aub.</h3>
+      <input v-model="titel" size="30" />
+
+      <h3>Geef de prijs in aub.</h3>
+      <input v-model="prijs" size="30" />
+
+      <h3>Geef het aantal stuks in aub.</h3>
+      <input v-model="aantal" size="30" />
+      <p>
+        Voor {{aantal}} stuk(s) van het boek {{titel}}, tegen een kostprijs van
+        {{prijs}}, betaal je {{prijs*aantal}}€
+      </p>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return { titel: "", prijs: "", aantal: "" };
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>
