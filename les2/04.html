@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <input type="radio" id="one" value="Radio 1" v-model="gekozen" />
+      <label for="one">Een</label>
+      <br />
+      <input type="radio" id="two" value="Radio 2" v-model="gekozen" />
+      <label for="two">Twee</label>
+      <br />
+      <span>gekozen: {{ gekozen }}</span>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return { gekozen: "" };
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>

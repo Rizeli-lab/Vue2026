@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p>
+        <label for="voornaam">Voornaam</label>
+        <input v-model="voornaam" />
+        <label for="achternaam">Achternaam</label>
+        <input v-model="achternaam" />
+      </p>
+      <p>
+        Geslacht:
+        <input type="radio" id="man" value="man" v-model="geslacht" />
+        <label for="man">Man</label>
+        <input type="radio" id="vrouw" value="vrouw" v-model="geslacht" />
+        <label for="vrouw">Vrouw</label>
+        <input type="radio" id="x" value="x" v-model="geslacht" />
+        <label for="x">X</label>
+      </p>
+
+      <p>
+        Ik heb interesse in volgende onderwerpen<br />
+        <select v-model="multipleSelected" multiple>
+          <option disabled value="">Select één of meerdere</option>
+          <option value="verkoop">Verkoop</option>
+          <option value="aankoop">Aankoop</option>
+          <option value="wetgeving">Wetgeving</option>
+        </select>
+      </p>
+
+      <textarea v-model="boodschap"></textarea>
+      <div style="white-space: pre-line; width: 200px">{{boodschap}}</div>
+
+      <p>
+        <input type="checkbox" id="gdpr" v-model="gdpr" /><label for="gdpr"
+          >Ik ga akkoord met het gebruik van mijn gegevens voor de registratie
+          van mijn account.</label
+        >
+      </p>
+
+      <p style="color: green">{{mijnDetails()}}</p>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return {
+            voornaam: "",
+            achternaam: "",
+            geslacht: "",
+            multipleSelected: [],
+            gdpr: false,
+            boodschap: "",
+          };
+        },
+        methods: {
+          mijnDetails: function () {
+            return (
+              "Ik ben " +
+              this.voornaam +
+              " " +
+              this.achternaam +
+              ", geslacht= " +
+              this.geslacht +
+              ". Ik heb interesse in= " +
+              this.multipleSelected +
+              ". Mijn boodschap= " +
+              this.boodschap +
+              ". De gdpr= " +
+              this.gdpr
+            );
+          },
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>

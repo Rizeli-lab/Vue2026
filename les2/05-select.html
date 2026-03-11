@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <select v-model="selected">
+        <option disabled value="">Selecteer aub.</option>
+        <option value="optieA">A</option>
+        <option value="optieB">B</option>
+        <option value="optieC">C</option>
+      </select>
+      <span>Selected: {{ selected }}</span>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return { selected: "" };
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>
