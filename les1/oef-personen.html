@@ -15,7 +15,13 @@
     <script>
       const app = {
         data: function () {
-          return {};
+          return { personen: [], persoon: "" };
+        },
+        methods: {
+          addPersoon: function () {
+            this.personen.push(this.persoon);
+            this.persoon = "";
+          },
         },
       };
 
