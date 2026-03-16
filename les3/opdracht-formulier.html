@@ -57,9 +57,9 @@
         <br />
         <button @click="verstuur">Verstuur</button>
 
-        <div v-show="toonErrors">
-          <p v-if="errors.voornaam" class="errors">Geef de voornaam in aub.</p>
-          <p v-if="errors.achternaam" class="errors">
+        <div v-if="verzonden">
+          <p v-if="errors.voornaam " class="errors">Geef de voornaam in aub.</p>
+          <p v-if="errors.achternaam " class="errors">
             Geef de achternaam in aub.
           </p>
           <p v-if="errors.email" class="errors">Geef het emailadres in aub.</p>
@@ -70,8 +70,6 @@
             Ga akkoord met de GDPR voorwaarde om het formulier te kunnen
             versturen.
           </p>
-        </div>
-        <div>
           <span v-if="success" class="success"
             >Uw aanmelding is verstuurd.</span
           >
@@ -87,8 +85,9 @@
             email: "",
             keuzes: [],
             gdpr: false,
+            verzonden: false,
             success: false,
-            toonErrors: false,
+
             errors: {
               voornaam: false,
               achternaam: false,
@@ -100,19 +99,19 @@
         },
         methods: {
           verstuur() {
-            this.errors.voornaam = this.voornaam === "";
-            this.errors.achternaam = this.achternaam === "";
-            this.errors.email = this.email === "";
+            this.verzonden = true;
+            this.errors.voornaam = this.voornaam.trim() === "";
+            this.errors.achternaam = this.achternaam.trim() === "";
+            this.errors.email = this.email.trim() === "";
             this.errors.keuzes = this.keuzes.length === 0;
-            this.errors.gdpr = this.gdpr === false;
-            this.toonErrors =
-              this.errors.voornaam ||
-              this.errors.achternaam ||
-              this.errors.email ||
-              this.errors.keuzes ||
-              this.errors.gdpr;
+            this.errors.gdpr = !this.gdpr;
 
-            this.success = !this.toonErrors;
+            this.success =
+              !this.errors.voornaam &&
+              !this.errors.achternaam &&
+              !this.errors.email &&
+              !this.errors.keuzes &&
+              !this.errors.gdpr;
           },
         },
       });
