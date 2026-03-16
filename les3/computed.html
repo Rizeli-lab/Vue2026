@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">De initialen van {{naam}} zijn : {{initials}}</div>
+    <script>
+      const app = {
+        data: function () {
+          return { naam: "Evan You" };
+        },
+        computed: {
+          initials: function () {
+            let naamArray = this.naam.split(" ");
+            //resultaat is een array
+            let initialen = "";
+            for (let nummer in naamArray) {
+              initialen += naamArray[nummer].charAt(0);
+            }
+            return initialen.toUpperCase();
+          },
+        },
+      };
+
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>

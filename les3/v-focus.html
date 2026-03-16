@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <input v-focus type="text" name="" />
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data: function () {
+          return {};
+        },
+      });
+      app.directive("focus", {
+        // When the bound element is mounted into the DOM...
+        mounted: function (el) {
+          // Focus the element
+          el.focus();
+        },
+      });
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>

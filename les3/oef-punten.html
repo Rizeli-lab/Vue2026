@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div v-for="vak in results">
+        <p>punten voor {{ vak.name }}: {{ vak.punten }}</p>
+        <input v-model="vak.punten" />
+      </div>
+      <p>Totaal: {{ totalpunten }}</p>
+      <p>Gemiddelde: {{gemiddelde}}</p>
+      <p>Uitslag: {{uitslag}}</p>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return {
+            results: [
+              {
+                name: "Engels",
+                punten: 80,
+              },
+              {
+                name: "Nederlands",
+                punten: 85,
+              },
+              {
+                name: "Frans",
+                punten: 90,
+              },
+            ],
+          };
+        },
+        computed: {
+          totalpunten: function () {
+            let total = 0;
+            for (let i = 0; i < this.results.length; i++) {
+              total += parseInt(this.results[i].punten);
+            }
+            return total;
+          },
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>

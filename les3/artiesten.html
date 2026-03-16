@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div v-for="(artiest,index) in artiesten">
+        <h1>Artiest</h1>
+        <p>Naam:</p>
+        <p>{{artiest.naam}}</p>
+        <p>Heeft werken verkocht:</p>
+        <p>{{heeftVerkocht[index]}}</p>
+      </div>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return {
+            artiesten: [
+              {
+                naam: "Jan van Eyck",
+                verkocht: ["Portrait of a man", "The Arnolfini Portrait"],
+              },
+              {
+                naam: "tes tetss",
+                verkocht: [],
+              },
+            ],
+          };
+        },
+
+        computed: {
+          heeftVerkocht: function () {
+            return this.artiesten.map((artiest) => {
+              return artiest.verkocht.length > 0 ? "ja" : "nee";
+            });
+          },
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>

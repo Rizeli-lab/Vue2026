@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p v-color>Lorem ipsum dolor sit amet</p>
+      <p v-color="'red'">
+        In vitae ex sit amet diam molestie suscipit ac eu ex. Maecenas
+      </p>
+      <p v-color="'#ff44ab'">Integer ante urna, placerat ac sagittis vitae</p>
+    </div>
+    <script>
+      const app = Vue.createApp({});
+      app.directive("color", function (el, binding) {
+        console.log(binding.value);
+        let kleur;
+        if (!binding.value) {
+          kleur = "#" + Math.random().toString().slice(2, 8);
+        } else {
+          kleur = binding.value;
+        }
+        el.style.color = kleur;
+      });
+      app.mount("#app");
+    </script>
+  </body>
+</html>

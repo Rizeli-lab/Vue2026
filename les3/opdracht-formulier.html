@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+      #formulier {
+        display: none;
+      }
+
+      .errors {
+        color: red;
+      }
+
+      .success {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="formulier" v-popup>
+        <h1>Nieuwsbrief</h1>
+        <label>Voornaam </label>
+        <input type="text" id="voornaam" v-model="voornaam" /> <br /><label
+          >Achternaam </label
+        ><input type="text" id="achternaam" v-model="achternaam" /> <br /><label
+          >Emailadres </label
+        ><input type="text" id="email" v-model="email" />
+
+        <p>Ik abonneer mij op volgende nieuwsbrieven:</p>
+
+        <input
+          type="checkbox"
+          id="mobiel"
+          value="Mobiele technology"
+          v-model="keuzes"
+        /><label>Mobiele technology</label><br />
+        <input
+          type="checkbox"
+          id="psgames"
+          value="PS Games"
+          v-model="keuzes"
+        /><label>PS Games</label><br />
+        <input
+          type="checkbox"
+          id="webdesign"
+          value="Webdesign"
+          v-model="keuzes"
+        /><label>Webdesign</label><br />
+        <input type="checkbox" id="gdpr" v-model="gdpr" /><label
+          >Ik ga akkoord met het gebruik van mijn gegevens voor de registratie
+          van mijn account.</label
+        >
+        <br />
+        <button @click="verstuur">Verstuur</button>
+
+        <div v-show="toonErrors">
+          <p v-if="errors.voornaam" class="errors">Geef de voornaam in aub.</p>
+          <p v-if="errors.achternaam" class="errors">
+            Geef de achternaam in aub.
+          </p>
+          <p v-if="errors.email" class="errors">Geef het emailadres in aub.</p>
+          <p v-if="errors.keuzes" class="errors">
+            Geef minstens 1 keuze op aub.
+          </p>
+          <p v-if="errors.gdpr" class="errors">
+            Ga akkoord met de GDPR voorwaarde om het formulier te kunnen
+            versturen.
+          </p>
+        </div>
+        <div>
+          <span v-if="success" class="success"
+            >Uw aanmelding is verstuurd.</span
+          >
+        </div>
+      </div>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data: function () {
+          return {
+            voornaam: "",
+            achternaam: "",
+            email: "",
+            keuzes: [],
+            gdpr: false,
+            success: false,
+            toonErrors: false,
+            errors: {
+              voornaam: false,
+              achternaam: false,
+              email: false,
+              keuzes: false,
+              gdpr: false,
+            },
+          };
+        },
+        methods: {
+          verstuur() {
+            this.errors.voornaam = this.voornaam === "";
+            this.errors.achternaam = this.achternaam === "";
+            this.errors.email = this.email === "";
+            this.errors.keuzes = this.keuzes.length === 0;
+            this.errors.gdpr = this.gdpr === false;
+            this.toonErrors =
+              this.errors.voornaam ||
+              this.errors.achternaam ||
+              this.errors.email ||
+              this.errors.keuzes ||
+              this.errors.gdpr;
+
+            this.success = !this.toonErrors;
+          },
+        },
+      });
+      app.directive("popup", function (el) {
+        el.style.display = "block";
+      });
+      app.mount("#app");
+    </script>
+  </body>
+</html>

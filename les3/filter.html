@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Namen</h1>
+      <label for="gefilterdeNaam">Vind de naam:</label>
+      <input v-model="vindNaam" id="gefilterdeNaam" type="text" />
+      <ul>
+        <li v-for="naam in gefilterdeNamen">{{ naam }}</li>
+      </ul>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return {
+            vindNaam: "",
+            namen: ["Jan", "Piet", "Jacobus", "Korneel"],
+          };
+        },
+        computed: {
+          gefilterdeNamen() {
+            let filterRegEx = new RegExp(this.vindNaam, "i");
+            //i = ignore case (grote letters of kleine letters maakt niet uit dus = "JAN" of "jan")
+            return this.namen.filter((element) => element.match(filterRegEx));
+          },
+        },
+      };
+
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>
