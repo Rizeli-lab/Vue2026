@@ -1,0 +1,204 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Klant gegevens</title>
+  </head>
+
+  <body>
+    <style>
+      span,
+      option,
+      input {
+        font-size: 20px;
+      }
+
+      .table {
+        display: table;
+        width: 90%;
+        text-align: center;
+      }
+
+      .row {
+        display: table-row;
+        height: 65px;
+      }
+
+      .cell {
+        display: table-cell;
+        border: solid;
+        border-width: thin;
+        padding-left: 5px;
+        padding-right: 5px;
+        width: 30%;
+        vertical-align: middle;
+      }
+
+      #ingave {
+        margin: 10px;
+      }
+
+      .bg1 {
+        background-color: #ffe633;
+      }
+
+      .bg2 {
+        background-color: #d4ca87;
+      }
+
+      section {
+        margin: 50px 20px;
+      }
+    </style>
+    <div id="app">
+      <section id="ingave">
+        <h1>Klant gegevens</h1>
+        <span>Voornaam</span>
+        <input type="text" v-model="vnaam" />
+        <span>Achternaam</span>
+        <input type="text" v-model="anaam" />
+        <span>Geboortedatum</span>
+        <input type="text" v-model="geboortedatum" />
+        <button v-on:click="voegDataToe" v-bind:style="buttonStyle">
+          Voeg toe
+        </button>
+      </section>
+
+      <section>
+        <div
+          class="table"
+          v-for="(klant,index) in klantGegevens"
+          v-bind:class="{bg1:index%2 ===0, bg2: !(index%2===0)}"
+        >
+          <div v-if="editKlant === index" class="row">
+            <div class="cell">
+              <input v-model="klant.vnaam" />
+            </div>
+            <div class="cell">
+              <input v-model="klant.anaam" />
+            </div>
+            <div class="cell">
+              <input v-model="klant.geboortedatum" />
+            </div>
+            <div class="cell">
+              <button
+                v-on:click="updateData(klant, index)"
+                v-bind:style="buttonStyle"
+              >
+                Bewaar
+              </button>
+            </div>
+          </div>
+          <div v-else class="row">
+            <div class="cell">
+              <p>{{klant.vnaam}}</p>
+            </div>
+            <div class="cell">
+              <p>{{klant.anaam}}</p>
+            </div>
+            <div class="cell">
+              <p>{{klant.geboortedatum}}</p>
+            </div>
+            <div class="cell">
+              <p>
+                <button
+                  v-on:click="editKlant = index"
+                  v-bind:style="buttonStyle"
+                >
+                  E
+                </button>
+                <button
+                  v-on:click="removeElement(index)"
+                  v-bind:style="buttonStyle"
+                >
+                  X
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const app = {
+        data: function () {
+          return {
+            vnaam: "",
+            anaam: "",
+            geboortedatum: "",
+            klantGegevens: [],
+            buttonStyle: {
+              backgroundColor: "#2196F3",
+              cursor: "pointer",
+              padding: "8px 16px",
+              verticalAlign: "top",
+            },
+            voegToe: true,
+            nr: 0,
+            editKlant: null,
+          };
+        },
+        methods: {
+          voegDataToe: function () {
+            if (
+              this.vnaam != "" &&
+              this.anaam != "" &&
+              this.geboortedatum != ""
+            ) {
+              this.klantGegevens.push({
+                vnaam: this.vnaam,
+                anaam: this.anaam,
+                geboortedatum: this.geboortedatum,
+              });
+              this.maakInputsLeeg();
+              this.saveLocalStorage();
+            } else {
+              alert("Geef alle waardes in aub.");
+            }
+          },
+          maakInputsLeeg: function () {
+            this.vnaam = "";
+            this.anaam = "";
+            this.geboortedatum = "";
+          },
+          saveLocalStorage: function () {
+            localStorage.setItem(
+              "klantGegevens",
+              JSON.stringify(this.klantGegevens),
+            );
+          },
+          updateData: function (klant, index) {
+            if (
+              klant.vnaam != "" &&
+              klant.anaam != "" &&
+              klant.geboortedatum != ""
+            ) {
+              this.klantGegevens[index] = {
+                vnaam: klant.vnaam,
+                anaam: klant.anaam,
+                geboortedatum: klant.geboortedatum,
+              };
+              this.saveLocalStorage();
+              this.editKlant = null;
+            } else {
+              alert("Geef alle waardes in aub.");
+            }
+          },
+
+          removeElement: function (index) {
+            this.klantGegevens.splice(index, 1);
+            this.saveLocalStorage();
+          },
+        },
+        mounted() {
+          if (localStorage.getItem("klantGegevens")) {
+            this.klantGegevens = JSON.parse(
+              localStorage.getItem("klantGegevens"),
+            );
+          }
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>
