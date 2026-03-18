@@ -101,7 +101,7 @@
             <div class="cell">
               <p>
                 <button
-                  v-on:click="editKlant = index"
+                  v-on:click="editKlant = index; changesAreSaved = false"
                   v-bind:style="buttonStyle"
                 >
                   E
@@ -136,6 +136,7 @@
             voegToe: true,
             nr: 0,
             editKlant: null,
+            changesAreSaved: true,
           };
         },
         methods: {
@@ -183,11 +184,18 @@
             } else {
               alert("Geef alle waardes in aub.");
             }
+            this.changesAreSaved = true;
           },
 
           removeElement: function (index) {
             this.klantGegevens.splice(index, 1);
             this.saveLocalStorage();
+          },
+          checkIfSavedPageLeave: function (e) {
+            if (!this.changesAreSaved) {
+              e.returnValue = "test";
+              return;
+            }
           },
         },
         mounted() {
@@ -195,6 +203,7 @@
             this.klantGegevens = JSON.parse(
               localStorage.getItem("klantGegevens"),
             );
+            window.addEventListener("beforeunload", this.checkIfSavedPageLeave);
           }
         },
       };
