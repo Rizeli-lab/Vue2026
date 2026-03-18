@@ -101,16 +101,16 @@
             <div class="cell">
               <p>
                 <button
-                  v-on:click="editKlant = index; changesAreSaved = false"
+                  v-on:click=" editData(index) "
                   v-bind:style="buttonStyle"
                 >
                   E
                 </button>
                 <button
-                  v-on:click="removeElement(index)"
+                  v-on:click="cancelUpdateData"
                   v-bind:style="buttonStyle"
                 >
-                  X
+                  Cancel
                 </button>
               </p>
             </div>
@@ -196,6 +196,18 @@
               e.returnValue = "test";
               return;
             }
+          },
+          editData: function (index) {
+            if (this.changesAreSaved == false) {
+              alert("Andere data wordt aangepast, bewaar of cancel dit eerst.");
+            } else {
+              this.editKlant = index;
+              this.changesAreSaved = false;
+            }
+          },
+          cancelUpdateData: function () {
+            this.editKlant = null;
+            this.changesAreSaved = true;
           },
         },
         mounted() {
