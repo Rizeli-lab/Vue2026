@@ -44,6 +44,12 @@
             }
             return total;
           },
+          gemiddelde: function () {
+            return this.totalpunten / this.results.length;
+          },
+          uitslag: function () {
+            return this.gemiddelde >= 50 ? "Geslaagd" : "Niet geslaagd";
+          },
         },
       };
       Vue.createApp(app).mount("#app");

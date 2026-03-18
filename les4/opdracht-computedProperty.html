@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Resultaat</h1>
+      <div v-for="cursist in bewerkteCursisten">
+        <h2>Naam: {{cursist.naam}}</h2>
+
+        <h3>Geslaagd</h3>
+        <div v-for="vak in cursist.geslaagd">
+          <p>{{vak.vak}}: {{vak.score}}</p>
+        </div>
+        <h3>Onvoldoende</h3>
+        <div v-for="vak in cursist.onvoldoende">
+          <p>{{vak.vak}}: {{vak.score}}</p>
+        </div>
+        <div>-------------------------------------------------------</div>
+      </div>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return {
+            cursisten: [
+              {
+                naam: "Jan",
+                resultaten: [
+                  ["html", 40],
+                  ["JS", 80],
+                  ["JS-OOP", 70],
+                ],
+              },
+              {
+                naam: "Piet",
+                resultaten: [
+                  ["html", 90],
+                  ["JS", 90],
+                  ["JS-OOP", 20],
+                ],
+              },
+            ],
+          };
+        },
+        computed: {
+          bewerkteCursisten: function () {
+            return this.cursisten.map(function (cursist) {
+              let geslaagd = [];
+              let onvoldoende = [];
+
+              cursist.resultaten.map(function (vak) {
+                let naam = vak[0];
+                let punten = vak[1];
+
+                if (punten >= 50) {
+                  geslaagd.push({ vak: naam, score: punten });
+                } else {
+                  onvoldoende.push({ vak: naam, score: punten });
+                }
+              });
+
+              return {
+                naam: cursist.naam,
+                geslaagd: geslaagd,
+                onvoldoende: onvoldoende,
+              };
+            });
+          },
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>
