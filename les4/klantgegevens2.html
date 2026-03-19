@@ -86,6 +86,9 @@
               >
                 Bewaar
               </button>
+              <button v-on:click="cancelUpdateData(index)" v-bind:style="buttonStyle">
+                Cancel
+              </button>
             </div>
           </div>
           <div v-else class="row">
@@ -106,12 +109,8 @@
                 >
                   E
                 </button>
-                <button
-                  v-on:click="cancelUpdateData"
-                  v-bind:style="buttonStyle"
-                >
-                  Cancel
-                </button>
+                <button v-on:click="removeElement(index)" v-bind:style="buttonStyle">X</button></p>
+                
               </p>
             </div>
           </div>
@@ -137,6 +136,7 @@
             nr: 0,
             editKlant: null,
             changesAreSaved: true,
+            vorigeKlantGegevens: {}
           };
         },
         methods: {
@@ -201,13 +201,15 @@
             if (this.changesAreSaved == false) {
               alert("Andere data wordt aangepast, bewaar of cancel dit eerst.");
             } else {
+              this.vorigeKlantGegevens = Object.assign({}, this.klantGegevens[index])
               this.editKlant = index;
               this.changesAreSaved = false;
             }
           },
-          cancelUpdateData: function () {
+          cancelUpdateData: function (index) {
             this.editKlant = null;
             this.changesAreSaved = true;
+            Object.assign(this.klantGegevens[index], this.vorigeKlantGegevens)
           },
         },
         mounted() {
