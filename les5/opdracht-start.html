@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue 3 Task Manager (Vue 3)</title>
+    <style>
+      /* Algemene opmaak voor de body */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+
+      /* Navigatie */
+      nav {
+        background-color: #fff;
+        padding: 10px;
+        border-bottom: 2px solid #ddd;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      /* Router-links */
+      .router-link {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #555;
+        font-size: 1.1em;
+      }
+
+      .router-link-active {
+        font-weight: bold;
+        color: #000;
+      }
+
+      /* Formulieren */
+      form {
+        background-color: #fff;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        max-width: 400px;
+        margin: 0 auto 20px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+      }
+
+      button {
+        padding: 8px 15px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      /* Lijst in het overzicht */
+      ul {
+        list-style-type: none;
+        padding: 0;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      li {
+        background-color: #fff;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+      }
+
+      /* Informatie links in de li */
+      .task-info {
+        flex-grow: 1;
+      }
+
+      /* Groepering van de knoppen rechts */
+      .button-group {
+        display: flex;
+        gap: 5px;
+        margin-left: auto;
+      }
+
+      textarea {
+        width: 200px;
+        height: 150px;
+        padding: 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <nav>
+        <router-link to="/">Home</router-link>
+        <span> - </span>
+        <router-link to="/overzicht">Overzicht</router-link>
+      </nav>
+
+      <router-view></router-view>
+    </div>
+
+    <script>
+      // Taak Invoer component: voeg een nieuwe taak toe en sla deze op in localStorage
+      const taskInput = {
+        template: `
+                <div>
+                <h2>Taak Invoer</h2>
+                <form>
+                    <label for="taskName">Taak:</label>
+                    <input id="taskName" type="text" required>
+                    <br>
+                    <label for="taskDesc">Omschrijving:</label>
+                    <input id="taskDesc" type="text">
+                    <br>
+                    <button type="submit">Toevoegen</button>
+                </form>
+                </div>
+            `,
+        data() {
+          return {};
+        },
+      };
+
+      // Overzicht component: toon de taken, maak bewerken en verwijderen mogelijk
+      const taskOverview = {
+        template: `
+            <div>
+            <h2>Overzicht Taken</h2>
+            <ul>
+                <li>
+                    <div class="task-info">
+                        <span v-if="!task.editing"></span>
+                        <div v-else>
+                            <input>
+                            <textarea></textarea>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button>Bewerk</button>
+                        <button>Opslaan</button>
+                        <button>Annuleer</button>
+                        <button>Verwijder</button>
+                    </div>
+                </li>
+            </ul>
+            </div>
+            `,
+        data() {
+          return {};
+        },
+      };
+    </script>
+  </body>
+</html>
