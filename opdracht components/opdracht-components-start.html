@@ -152,15 +152,15 @@
       methods: {
         addProduct: function (product) {
           this.cartItems.push(product);
+          localStorage.setItem("cart", JSON.stringify(this.cartItems));
           this.showNotification("Product toegevoegd!", "success");
-          console.log(this.cartItems);
         },
 
         removeItem: function (id) {
           this.cartItems = this.cartItems.filter(function (item) {
             return item.id != id;
           });
-          console.log(this.cartItems);
+          localStorage.setItem("cart", JSON.stringify(this.cartItems));
         },
 
         showNotification: function (message, type) {
@@ -173,7 +173,16 @@
           }, 3000);
         },
       },
+      mounted() {
+        let opgeslagen = localStorage.getItem("cart");
+
+        if (opgeslagen) {
+          this.cartItems = JSON.parse(opgeslagen);
+          this.showNotification("Vorige bestelling hersteld!", "warning");
+        }
+      },
     });
+
     app.component("product-container", {
       props: ["product"],
       template: "#product-container-template",
