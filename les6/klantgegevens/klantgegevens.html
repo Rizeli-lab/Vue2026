@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Klant gegevens</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-router@4"></script>
+    <style>
+      span,
+      option,
+      input {
+        font-size: 20px;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 70px;
+      }
+
+      .cell {
+        border: none;
+        padding-left: 5px;
+        padding-right: 5px;
+        width: 30%;
+        vertical-align: middle;
+        text-align: center;
+      }
+
+      #ingave {
+        margin: 10px;
+      }
+
+      .bg1 {
+        background-color: #ffe633;
+      }
+
+      .bg2 {
+        background-color: #d4ca87;
+      }
+
+      section {
+        margin: 50px 20px;
+      }
+
+      .rowTransiton-enter-from,
+      .rowTransiton-leave-to,
+      .delete-leave-to {
+        opacity: 0;
+      }
+
+      .rowTransiton-enter-active,
+      .rowTransiton-leave-active,
+      .delete-leave-active {
+        transition: all 0.5s;
+      }
+
+      .rowTransiton-enter-to,
+      .rowTransiton-leave-from,
+      .delete-leave-from {
+        opacity: 1;
+      }
+
+      nav {
+        margin-bottom: 20px;
+      }
+
+      .router-link-active {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <nav>
+        <router-link class="router-link" to="/">Home</router-link>
+        <span> - </span>
+        <router-link class="router-link" to="/overzicht">Overzicht</router-link>
+      </nav>
+      <router-view></router-view>
+    </div>
+
+    <script>
+      const router = new VueRouter.createRouter({
+        history: VueRouter.createWebHashHistory(),
+        routes: [
+          { path: "/", name: "Home", component: home },
+          { path: "/overzicht", name: "Overzicht", component: overzicht },
+        ],
+      });
+
+      const app = {
+        data: function () {
+          return {};
+        },
+      };
+      Vue.createApp(app).use(router).mount("#app");
+    </script>
+  </body>
+</html>
