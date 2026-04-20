@@ -89,6 +89,13 @@
 
   <body>
     <div id="app">
+      <notification
+        v-if="notification.message !=''"
+        v-bind:message="notification.message"
+        v-bind:type="notification.type"
+      >
+      </notification>
+
       <cart-indicator v-bind:items="cartItems" v-on:remove-item="removeItem">
       </cart-indicator>
 
@@ -121,6 +128,10 @@
     </div>
   </script>
 
+  <script type="text/x-template" id="notification-template">
+    <div class="notification" v-bind:class="type">{{message}}</div>
+  </script>
+
   <script>
     const app = Vue.createApp({
       data: function () {
@@ -135,11 +146,13 @@
             message: "",
             type: "",
           },
+          timer: null,
         };
       },
       methods: {
         addProduct: function (product) {
           this.cartItems.push(product);
+          this.showNotification("Product toegevoegd!", "success");
           console.log(this.cartItems);
         },
 
@@ -148,6 +161,16 @@
             return item.id != id;
           });
           console.log(this.cartItems);
+        },
+
+        showNotification: function (message, type) {
+          this.notification.message = message;
+          this.notification.type = type;
+
+          setTimeout(() => {
+            this.notification.message = "";
+            this.notification.type = "";
+          }, 3000);
         },
       },
     });
@@ -159,6 +182,11 @@
     app.component("cart-indicator", {
       props: ["items"],
       template: "#cart-indicator-template",
+    });
+
+    app.component("notification", {
+      props: ["message", "type"],
+      template: "#notification-template",
     });
 
     app.mount("#app");
