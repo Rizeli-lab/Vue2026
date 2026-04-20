@@ -65,7 +65,7 @@
       ul.cart-indicator-list {
         display: none;
         position: absolute;
-        top: 20px;
+        top: 40px;
         right: 0;
         background: green;
         padding: 0px;
@@ -89,7 +89,18 @@
 
   <body>
     <div id="app">
-      <product-container v-bind:product="products[0]"> </product-container>
+      <cart-indicator v-bind:items="cartItems" v-on:remove-item="removeItem">
+      </cart-indicator>
+
+      <div class="product-container">
+        <product-container
+          v-for="product in products"
+          v-bind:key="product.id"
+          v-bind:product="product"
+          v-on:add-product="addProduct"
+        >
+        </product-container>
+      </div>
     </div>
   </body>
 
@@ -97,7 +108,16 @@
     <div class="product">
         <img v-bind:src="product.image" v-bind:alt="product.name">
         <h3>{{product.name}}</h3>
-        <button class="button">Toevoegen</button>
+        <button class="button" v-on:click="$emit('add-product', product)">Toevoegen</button>
+    </div>
+  </script>
+
+  <script type="text/x-template" id="cart-indicator-template">
+    <div class="cart-indicator-container">
+      <p>Winkelwagen: {{items.length}}</p>
+      <ul class="cart-indicator-list">
+        <li v-for="item in items" v-bind:key="item.id"> {{item.name}} <button v-on:click="$emit('remove-item', item.id)">x</button></li>
+      </ul>
     </div>
   </script>
 
@@ -117,10 +137,28 @@
           },
         };
       },
+      methods: {
+        addProduct: function (product) {
+          this.cartItems.push(product);
+          console.log(this.cartItems);
+        },
+
+        removeItem: function (id) {
+          this.cartItems = this.cartItems.filter(function (item) {
+            return item.id != id;
+          });
+          console.log(this.cartItems);
+        },
+      },
     });
     app.component("product-container", {
       props: ["product"],
       template: "#product-container-template",
+    });
+
+    app.component("cart-indicator", {
+      props: ["items"],
+      template: "#cart-indicator-template",
     });
 
     app.mount("#app");
