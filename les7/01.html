@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Bitcoin Price Index</h1>
+      <section v-if="errored">
+        <p>
+          We're sorry, we're not able to retrieve this information at the
+          moment, please try back later
+        </p>
+      </section>
+      <section v-else>
+        <div v-if="loading">Loading...</div>
+        <div v-else v-for="(rate, currency) in info">
+          {{ currency }}: {{ rate }}
+        </div>
+      </section>
+    </div>
+    <script>
+      const app = {
+        data: function () {
+          return {
+            info: null,
+            loading: true,
+            errored: false,
+          };
+        },
+        mounted() {
+          axios
+            .get(
+              "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=EUR,JPY,USD",
+            )
+            .then((response) => (this.info = response.data))
+            .catch((error) => {
+              console.log(error); // fout met de API request
+              this.errored = true;
+            })
+            .finally(() => (this.loading = false));
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>

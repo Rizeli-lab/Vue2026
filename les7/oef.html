@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub User Profiles</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>GitHub User Profiles</h1>
+      <div>
+        <github-user-profile
+          v-for="username in usernames"
+          :username="username"
+        ></github-user-profile>
+      </div>
+    </div>
+
+    <script type="text/x-template" id="github-user-profile-template">
+      <div>
+              <img :src="user.avatar_url">
+              <p>Naam: {{user.name}}</p>
+              <p>Website: <a :href="user.blog">{{user.blog}}</a></p>
+              <hr>
+            </div>
+    </script>
+
+    <script>
+      const app = Vue.createApp({
+        data: function () {
+          return {
+            usernames: ["dannydrij", "defunkt", "pjhyett", "wycats"],
+          };
+        },
+      });
+
+      app.component("github-user-profile", {
+        data: function () {
+          return {
+            user: {},
+          };
+        },
+        template: "#github-user-profile-template",
+        props: ["username"],
+
+        mounted() {
+          axios
+            .get(`https://api.github.com/users/${this.username}`)
+            .then((response) => {
+              this.user = response.data;
+            });
+        },
+      });
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>
