@@ -1,100 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weerapp met Vue.js</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+      }
 
-        h1 {
-            color: #333;
-        }
+      h1 {
+        color: #333;
+      }
 
-        .search-container {
-            margin-bottom: 20px;
-        }
+      .search-container {
+        margin-bottom: 20px;
+      }
 
-        input {
-            padding: 10px;
-            font-size: 16px;
-            width: 200px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+      input {
+        padding: 10px;
+        font-size: 16px;
+        width: 200px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
 
-        button {
-            padding: 10px 15px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+      button {
+        padding: 10px 15px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+      button:hover {
+        background-color: #0056b3;
+      }
 
-        .weather-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            display: inline-block;
-            margin-top: 20px;
-        }
+      .weather-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        margin-top: 20px;
+      }
 
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-        </style>
-</head>
-<body>
-
+      .error {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
     <div id="app">
-        <h1>🌦️ Vue.js Weerapp</h1>
+      <h1>🌦️ Vue.js Weerapp</h1>
 
-        <!-- Zoekbalk -->
-        <div class="search-container">
-            <input placeholder="Voer een stad in...">
-            <button>Zoek</button>
-        </div>
+      <!-- Zoekbalk -->
+      <div class="search-container">
+        <input
+          type="text"
+          v-model="stad"
+          placeholder="Voer een stad in..."
+          @keyup.enter="zoekWeer"
+        />
+        <button v-on:click="zoekWeer">Zoek</button>
+      </div>
 
-        <!-- Laadindicator ⏳ -->
-        
+      <!-- Laadindicator ⏳ -->
+      <p v-if="loading">⏳ Laden...</p>
 
-        <!-- Foutmelding -->
-        
+      <!-- Foutmelding -->
+      <p class="error" v-if="fout">{{fout}}</p>
 
-        <!-- Weerweergave 🌡️ 💨 🌤️ -->
-        <div class="weather-card">
-            
-        </div>
+      <!-- Weerweergave 🌡️ 💨 🌤️ -->
+      <div class="weather-card" v-if="weerInfo">
+        <h2>{{stad}}</h2>
+        <p>🌡️ Temperatuur: {{weerInfo.temp_C}}°C</p>
+        <p>💨 Wind: {{weerInfo.windspeedKmph}} km/u</p>
+        <p>🌤️ Weer: {{weerInfo.weatherDesc[0].value}}</p>
+      </div>
     </div>
 
     <script type="text/javascript">
-        const app = Vue.createApp({
-            data: function () {
-                return {
-            
-                }
+      const app = Vue.createApp({
+        data: function () {
+          return {
+            stad: "",
+            weerInfo: "",
+            loading: false,
+            fout: "",
+          };
+        },
+
+        methods: {
+          zoekWeer: function () {
+            this.fout = "";
+            this.weerInfo = null;
+
+            if (this.stad == "") {
+              this.fout = "Voer een stad in.";
+              return;
             }
-        })
 
-        
+            this.loading = true;
 
-        app.mount('#app')
+            axios
+              .get("https://wttr.in/" + this.stad + "?format=j1")
+              .then((response) => {
+                this.weerInfo = response.data.current_condition[0];
+                console.log(this.weerInfo);
+              })
+              .catch((error) => {
+                console.log(error);
+                this.fout =
+                  "Kan geen weergegevens vinden. Probeer een andere stad.";
+              })
+              .finally(() => {
+                this.loading = false;
+              });
+            console.log(this.stad);
+          },
+        },
+      });
+
+      app.mount("#app");
     </script>
-</body>
+  </body>
 </html>
