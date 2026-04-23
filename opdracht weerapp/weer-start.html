@@ -95,7 +95,7 @@
         data: function () {
           return {
             stad: "",
-            weerInfo: "",
+            weerInfo: null,
             loading: false,
             fout: "",
           };
@@ -106,7 +106,7 @@
             this.fout = "";
             this.weerInfo = null;
 
-            if (this.stad == "") {
+            if (this.stad.trim() == "") {
               this.fout = "Voer een stad in.";
               return;
             }
@@ -117,6 +117,7 @@
               .get("https://wttr.in/" + this.stad + "?format=j1")
               .then((response) => {
                 this.weerInfo = response.data.current_condition[0];
+                localStorage.setItem("laatsteStad", this.stad);
                 console.log(this.weerInfo);
               })
               .catch((error) => {
@@ -127,8 +128,14 @@
               .finally(() => {
                 this.loading = false;
               });
-            console.log(this.stad);
           },
+        },
+
+        mounted: function () {
+          if (localStorage.getItem("laatsteStad")) {
+            this.stad = localStorage.getItem("laatsteStad");
+            this.zoekWeer();
+          }
         },
       });
 
